@@ -99,7 +99,7 @@ $ echo "will be updated soon..."
 
 ## Progress
 - [x] Github repo formation
-- [x] Project Choice Submission
+- [x] Project Proposal Submission
 - [ ] Building the project
 - [ ] Deployment
 - [ ] Final Submission
