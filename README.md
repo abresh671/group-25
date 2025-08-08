@@ -90,11 +90,11 @@ $ echo "will be updated soon..."
 ## Team Members
 
 <ul>
-<li>Eden Dirshaye
-<li>Micheale
-<li>Kamil Mohamed
-<li>Abrsh
+<li>Abreham Addis
+<li>Eden Dirshaye  
+<li>Kamil Mohamed  
 <li>Kidus Mengistu
+<li>Mikiyas Alemseged
 </ul>
 
 ## Progress
