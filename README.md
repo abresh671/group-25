@@ -92,7 +92,7 @@ $ echo "will be updated soon..."
 <ul>
 <li>Abreham Addis
 <li>Eden Dirshaye  
-<li>Kamil Mohamed  
+<li>Kamil Mohammed  
 <li>Kidus Mengistu
 <li>Mikiyas Alemseged
 </ul>
