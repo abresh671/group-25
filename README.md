@@ -19,7 +19,7 @@
 
 <!--[![](https://raw.githubusercontent.com/adamalston/adamalston/master/profile.gif)](https://www.adamalston.com/)-->
 
-## 🪝 Hooked - Phishing Detection & Analysis Toolkit
+## Hooked - Phishing Detection & Analysis Toolkit
 
 
 **Hooked** ia a phishing detection and analysis toolkit we plan to build in Python, we will designed it to automate the detection and analysis of phishing websites and scale it on the way.
@@ -51,7 +51,7 @@ $ echo "will be updated soon..."
 
 ---
 
-### 2. 💻 Running Locally
+### 2. Running Locally
 
 #### For Linux / Mac:
 
@@ -109,6 +109,6 @@ $ echo "will be updated soon..."
 Got feedback or ideas? Start a discussion on: [Hooked Discussions](https://github.com//hooked/discussions).
 
 
-> 🪝 *Stay alert. Stay safe. Stay Hooked.*
+> *Stay alert. Stay safe. Stay Hooked.*
 
 <!-- [![Feedback](https://button.flattr.com/button-compact-static-100x17.png)](https://flattr.com/@theabbie) -->
