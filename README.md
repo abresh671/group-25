@@ -70,13 +70,13 @@ $ echo "will be updated soon..."
 ```bash
 $ echo "will be updated soon..."
 ```
-### Updating
+#### Updating
 
 ```bash
 $ echo "will be updated soon..."
 ```
 
-### Uninstalling
+#### Uninstalling
 
 ```bash
 $ echo "will be updated soon..."
