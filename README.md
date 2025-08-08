@@ -22,7 +22,7 @@
 ## Hooked - Phishing Detection & Analysis Toolkit
 
 
-**Hooked** ia a phishing detection and analysis toolkit we plan to build in Python, we will designed it to automate the detection and analysis of phishing websites and scale it on the way.
+**Hooked** ia a phishing detection and analysis toolkit we plan to build using Python, we will designed it to automate the detection and analysis of phishing websites and scale it on the way.
 
 
 ## Features we have in mind to impliment
