@@ -37,7 +37,7 @@
 <!--img src="" alt="" width="200" height="200"-->
 
 ## DEMO
-To be updated soon 
+To be updated soon... 
 
 ---
 
