@@ -7,7 +7,7 @@
                                                  | |                           
                                                  |_|     -->
 
-                         # Quick Links
+                         # Quick Links.
 
 * [Hooked](#hooked)
 * [Features](#features)
