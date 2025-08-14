@@ -1,0 +1,93 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8" />
+  <title>hooked options</title>
+  <style>
+    body{font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;margin:20px;max-width:720px}
+    h1{font-size:20px;margin:0 0 12px}
+    .card{background:#fafafa;border:1px solid #eee;border-radius:12px;padding:16px;margin:12px 0}
+    label{display:block;margin:8px 0 4px}
+    input[type=number]{width:120px}
+    button{all:unset;background:#111;color:#fff;padding:8px 12px;border-radius:8px;cursor:pointer}
+    table{width:100%;border-collapse:collapse}
+    th,td{border-bottom:1px solid #eee;padding:8px;text-align:left}
+  </style>
+</head>
+<body>
+  <h1>hooked settings</h1>
+
+  <div class="card">
+    <h2 style="font-size:16px;margin:0 0 8px">Detection</h2>
+    <label>Risk threshold (0–100)</label>
+    <input id="threshold" type="number" min="0" max="100" step="1" />
+    <div style="margin-top:8px"><button id="save">Save</button></div>
+  </div>
+
+  <div class="card">
+    <h2 style="font-size:16px;margin:0 0 8px">Lists</h2>
+    <div style="display:flex;gap:16px;align-items:end;flex-wrap:wrap">
+      <div>
+        <label>Add domain to allowlist</label>
+        <input id="allowAdd" type="text" placeholder="example.com"/>
+        <button id="allowBtn">Add</button>
+      </div>
+      <div>
+        <label>Add domain to blocklist</label>
+        <input id="blockAdd" type="text" placeholder="example.com"/>
+        <button id="blockBtn">Add</button>
+      </div>
+    </div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:12px">
+      <div>
+        <strong>Allowlist</strong>
+        <table id="allowTable"><tbody></tbody></table>
+      </div>
+      <div>
+        <strong>Blocklist</strong>
+        <table id="blockTable"><tbody></tbody></table>
+      </div>
+    </div>
+  </div>
+
+  <script type="module">
+    async function getState(){
+      try { return await chrome.runtime.sendMessage({ type: "getState" }); }
+      catch { return null; }
+    }
+    function fillTable(tbl, items, listName) {
+      tbl.innerHTML = "";
+      for (const d of items) {
+        const tr = document.createElement("tr");
+        tr.innerHTML = `<td>${d}</td><td><button data-d="${d}" class="del">Remove</button></td>`;
+        tr.querySelector(".del").addEventListener("click", async (ev) => {
+          const dom = ev.currentTarget.getAttribute("data-d");
+          await chrome.runtime.sendMessage({ type: "removeFromList", domain: dom, list: listName });
+          init();
+        });
+        tbl.appendChild(tr);
+      }
+    }
+    async function init(){
+      const st = await getState(); if (!st) return;
+      document.getElementById("threshold").value = st.settings.threshold;
+      fillTable(document.querySelector("#allowTable tbody"), st.allowlist, "allow");
+      fillTable(document.querySelector("#blockTable tbody"), st.blocklist, "block");
+    }
+    document.getElementById("save").onclick = async ()=>{
+      const v = Number(document.getElementById("threshold").value);
+      if (Number.isFinite(v)) await chrome.runtime.sendMessage({ type: "updateSettings", settings: { threshold: Math.max(0, Math.min(100, Math.round(v))) } });
+      init();
+    };
+    document.getElementById("allowBtn").onclick = async ()=>{
+      const v = document.getElementById("allowAdd").value.trim().toLowerCase();
+      if (v) await chrome.runtime.sendMessage({ type: "allowDomain", domain: v }); init();
+    };
+    document.getElementById("blockBtn").onclick = async ()=>{
+      const v = document.getElementById("blockAdd").value.trim().toLowerCase();
+      if (v) await chrome.runtime.sendMessage({ type: "blockDomain", domain: v }); init();
+    };
+    init();
+  </script>
+</body>
+</html>
