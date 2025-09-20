@@ -4,6 +4,7 @@ import httpx
 import pickle as pk
 import pandas as pd
 import extractorFunctions as ef
+from featureExtractor import featureExtraction
 
 #Function to extract features
 def featureExtraction(url):
