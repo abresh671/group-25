@@ -6,11 +6,7 @@ Users can submit a URL through the web interface and receive a prediction.
 """
 
 import logging
-<<<<<<< HEAD
 from flask import Flask, request, render_template, jsonify
-=======
-from flask import Flask, render_template, request
->>>>>>> 31e62cff7e4739e8418af30b752744faf0d77ab1
 from urllib.parse import urlparse
 from featureExtractor import featureExtraction
 from pycaret.classification import load_model, predict_model
@@ -103,11 +99,7 @@ def analyze():
         return render_template('result.html', url=url, error=result["error"])
     else:
         return render_template(
-<<<<<<< HEAD
             'index.html',
-=======
-            'result.html',
->>>>>>> 31e62cff7e4739e8418af30b752744faf0d77ab1
             url=url,
             label=result['prediction_label'],
             score=round(result['prediction_score'], 2)

@@ -1,86 +1,60 @@
-import whois
-from urllib.parse import urlparse
 import httpx
-import pickle as pk
-import pandas as pd
-import extractorFunctions as ef
+import whois
+import tldextract
+import numpy as np
+from bs4 import BeautifulSoup
+import requests
 
-
-def get_domain_info(domain):
-    """Fetch WHOIS info safely."""
+def safe_whois(domain):
+    """Fetch WHOIS info, return None if fails"""
     try:
-        return whois.whois(domain)
-    except Exception as e:
-        print(f"[!] Failed to fetch WHOIS info for {domain}: {e}")
+        w = whois.whois(domain)
+        expiration = w.expiration_date
+        if isinstance(expiration, list):
+            expiration = expiration[0]
+        return expiration
+    except Exception:
         return None
 
-
-def featureExtraction(url: str) -> pd.DataFrame:
+def featureExtraction(url):
     """
-    Extract features from a given URL.
-    Returns a pandas DataFrame formatted for the ML model.
+    Extract features from a URL for phishing detection.
+    Returns a flattened 1D array of features.
     """
     features = []
 
-    # --- Address bar features ---
-    features.append(ef.getLength(url))         # URL_Length
-    features.append(ef.getDepth(url))          # URL_Depth
-    features.append(ef.tinyURL(url))           # TinyURL
-    features.append(ef.prefixSuffix(url))      # Prefix/Suffix
-    features.append(ef.no_of_dots(url))        # No_Of_Dots
-    features.append(ef.sensitive_word(url))    # Sensitive_Words
+    # Example features: length, dots, hyphens, tld, etc.
+    features.append(len(url))
+    features.append(url.count('.'))
+    features.append(url.count('-'))
 
-    # --- Domain features ---
-    dns = 0
-    domain_age, domain_end = 1, 1
+    # Extract domain info
+    ext = tldextract.extract(url)
+    features.append(len(ext.domain))  # domain length
+    features.append(len(ext.suffix))  # TLD length
+
+    # WHOIS expiration (days from today, or 0 if fail)
+    exp = safe_whois(url)
+    if exp is None:
+        features.append(0)
+    else:
+        from datetime import datetime
+        if isinstance(exp, str):
+            try:
+                exp = datetime.strptime(exp, "%Y-%m-%d")
+            except:
+                exp = datetime.now()
+        features.append((exp - datetime.now()).days)
+
+    # You can add more features (HTTP response, soup analysis, etc.)
     try:
-        domain_info = get_domain_info(urlparse(url).netloc)
-        if domain_info:
-            domain_age = ef.domainAge(domain_info)
-            domain_end = ef.domainEnd(domain_info)
+        r = requests.get(url, timeout=3)
+        features.append(len(r.text))  # page length
+        soup = BeautifulSoup(r.text, "html.parser")
+        features.append(len(soup.find_all('a')))  # number of links
     except Exception:
-        dns = 1  # WHOIS failed
+        features.append(0)
+        features.append(0)
 
-    features.append(1 if dns == 1 else domain_age)  # Domain_Age
-    features.append(1 if dns == 1 else domain_end)  # Domain_End
-
-    # --- HTML/JS features ---
-    try:
-        response = httpx.get(url, timeout=5)
-    except Exception:
-        response = ""
-
-    dom_feats = [
-        ef.iframe(response),
-        ef.mouseOver(response),
-        ef.forwarding(response)
-    ]
-
-    # Combine Unicode + @ sign + IP presence
-    features.append(
-        ef.has_unicode(url) +
-        ef.haveAtSign(url) +
-        ef.havingIP(url)
-    )  # Have_Symbol
-
-    # Apply PCA on dom features
-    try:
-        with open('model/pca_model.pkl', 'rb') as file:
-            pca = pk.load(file)
-        dom_pd = pd.DataFrame([dom_feats], columns=['iFrame', 'Mouse_Over', 'Web_Forwards'])
-        pca_val = pca.transform(dom_pd)[0][0]
-    except Exception as e:
-        print(f"[!] PCA transform failed: {e}")
-        pca_val = 0
-
-    features.append(pca_val)  # domain_att
-
-    # --- Final DataFrame ---
-    feature_names = [
-        'URL_Length', 'URL_Depth', 'TinyURL', 'Prefix/Suffix',
-        'No_Of_Dots', 'Sensitive_Words', 'Domain_Age', 'Domain_End',
-        'Have_Symbol', 'domain_att'
-    ]
-
-    row = pd.DataFrame([features], columns=feature_names)
-    return row
+    # Ensure features are returned as 1D numpy array
+    return np.array(features).flatten()
