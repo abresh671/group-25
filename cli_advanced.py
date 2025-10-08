@@ -13,8 +13,8 @@ from explain import explain_url
 def print_banner():
     banner = """
 ╔══════════════════════════════════════════════════════════════╗
-║              Advanced Phishing Detection System              ║
-║                     CLI Interface v2.0                      ║
+║              Hooked Advanced Phishing Detection System       ║
+║                     CLI Interface v2.0                       ║
 ╚══════════════════════════════════════════════════════════════╝
     """
     print(banner)

@@ -1,24 +1,22 @@
 # Core ML libraries
-numpy
-pandas
-scikit-learn
-joblib
-scipy
+numpy>=1.21.0
+pandas>=1.3.0
+scikit-learn>=1.0.0
+joblib>=1.1.0
+scipy>=1.7.0
 
 # Web framework
-flask
-
-# URL parsing
-tldextract
+flask>=2.0.0
+flask-cors>=3.0.0
 
 # Model explanation
-shap
+shap>=0.40.0
 
-# Advanced ML models
-xgboost
-lightgbm
+# Advanced ML models (optional)
+xgboost>=1.5.0
+lightgbm>=3.3.0
 
-# Optional network features
-dnspython
-python-whois
-requests
+# Network features (optional)
+requests>=2.25.0
+dnspython>=2.1.0
+python-whois>=0.7.0
