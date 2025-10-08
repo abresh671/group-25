@@ -1,47 +1,68 @@
-# Advanced Phishing Detection System
+# Hooked - Advanced Phishing Detection System
 
-A comprehensive ML system for phishing URL detection with advanced feature extraction and explainable AI.
+Don't get caught by phishing! Hooked is a comprehensive ML system that detects phishing URLs before they can hook you.
+
+## Features
+- 🎣 **Smart Detection**: 56+ features analyze URL patterns to spot phishing hooks
+- 🧠 **AI-Powered**: Ensemble ML models with 94.4% accuracy
+- ⚡ **Real-time**: Instant URL analysis
+- 🌐 **Multiple Interfaces**: Web UI, CLI, and REST API
+- 📊 **Explainable**: SHAP-based feature importance
 
 ## Quick Start
 
-1. **Install dependencies:**
+1. **One-command setup:**
    ```bash
-   pip install -r requirements.txt
+   python setup.py
    ```
 
-2. **Run setup:**
+2. **Start using Hooked:**
    ```bash
-   python setup_advanced.py
-   ```
-
-3. **Use the system:**
-   ```bash
-   # CLI interface
+   # Web interface (recommended)
+   python app_frontend.py
+   # Then open: http://127.0.0.1:5000
+   
+   # Simple CLI
+   python cli_simple.py https://suspicious-site.com
+   
+   # Advanced CLI with options
    python cli_advanced.py --interactive
-   
-   # Web interface  
-   python app_advanced.py
-   
-   # Direct prediction
-   python predict_advanced.py https://suspicious-site.com
    ```
 
-## Core Files
+## System Architecture
 
-- `featureExtractor.py` - Main feature extraction coordinator
-- `extractorFunctions.py` - Individual feature extraction components
-- `dataset_generator.py` - Comprehensive dataset creation
-- `train_advanced.py` - Ensemble model training
-- `predict_advanced.py` - Prediction engine
-- `app_advanced.py` - Web interface with modern UI
-- `cli_advanced.py` - Advanced CLI with batch processing
-- `explain.py` - SHAP-based explanations
+### Core Components
+- `featureExtractor.py` - Feature extraction engine (56+ features)
+- `train_advanced.py` - ML model training (XGBoost, LightGBM, Random Forest)
+- `predict_advanced.py` - Prediction engine with ensemble voting
+- `explain.py` - SHAP-based explainable AI
 
-## Features
+### Interfaces
+- `app_frontend.py` - Modern web interface
+- `cli_simple.py` - Easy-to-use CLI
+- `cli_advanced.py` - Full-featured CLI with batch processing
 
-- **30+ Advanced Features**: URL structure, domain analysis, heuristics, blacklists
-- **Ensemble Learning**: XGBoost, LightGBM, Random Forest
-- **Explainable AI**: SHAP feature importance
-- **Multiple Interfaces**: CLI, Web UI, REST API
-- **Batch Processing**: Analyze multiple URLs efficiently
-- **Real-time Analysis**: Fast prediction with comprehensive logging
+### Setup & Utilities
+- `setup.py` - One-command system setup
+- `dataset_generator.py` - Training data preparation
+
+## Technical Details
+
+### Machine Learning
+- **Models**: Ensemble of XGBoost, LightGBM, Random Forest
+- **Accuracy**: 94.4% on test data
+- **Features**: 56+ URL analysis features
+- **Training**: Balanced dataset with phishing/legitimate URLs
+
+### API Endpoints
+- `POST /api/check` - Single URL analysis
+- `POST /api/batch` - Multiple URL analysis
+- `POST /api/explain` - Feature importance explanation
+- `GET /api/model/info` - Model information
+- `GET /api/health` - System health check
+
+### Deployment
+- **Frontend**: Responsive web interface
+- **Backend**: Flask REST API
+- **CLI**: Command-line tools for automation
+- **Cross-platform**: Windows, macOS, Linux support

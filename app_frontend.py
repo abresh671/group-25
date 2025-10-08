@@ -13,9 +13,9 @@ CORS(app)  # Enable CORS for React frontend
 try:
     model, tfidf, scaler, numeric_cols = load_artifacts()
     model_loaded = True
-    print("✅ Model loaded successfully")
+    print("[OK] Model loaded successfully")
 except FileNotFoundError:
-    print("❌ Model not found. Please run train_advanced.py first.")
+    print("[ERROR] Model not found. Please run train_advanced.py first.")
     model = tfidf = scaler = numeric_cols = None
     model_loaded = False
 
@@ -43,20 +43,29 @@ def api_check():
         return jsonify({"error": "model not loaded"}), 500
     
     try:
-        pred, proba = predict(url, use_network=data.get("use_network", False))
+        result = predict(url, use_network=data.get("use_network", True), include_advice=True)
+        if len(result) == 3:  # With advice
+            pred, proba, advice = result
+        else:  # Without advice (fallback)
+            pred, proba = result
+            advice = []
+        
         if pred is not None:
             return jsonify({
                 "url": url,
                 "prediction": pred,
-                "label": "PHISHING" if pred == 1 else "LEGITIMATE",
+                "label": "HOOKED" if pred == 1 else "SAFE",
                 "probability": proba,
                 "confidence": proba * 100 if proba else 0,
-                "timestamp": datetime.now().isoformat()
+                "timestamp": datetime.now().isoformat(),
+                "message": "This URL is trying to hook you!" if pred == 1 else "You're safe from this hook!",
+                "advice": advice,
+                "analysis": "\n".join(advice) if advice else "No detailed analysis available"
             })
         else:
-            return jsonify({"error": "prediction failed"}), 500
+            return jsonify({"error": "prediction failed - unable to analyze URL"}), 500
     except Exception as e:
-        return jsonify({"error": str(e)}), 500
+        return jsonify({"error": f"analysis error: {str(e)}"}), 500
 
 @app.route("/api/batch", methods=["POST"])
 def api_batch():
@@ -122,8 +131,8 @@ def health_check():
     })
 
 if __name__ == "__main__":
-    print("🚀 Starting Phish Shield Backend")
+    print("[INFO] Starting Hooked Backend")
     print(f"Model loaded: {model_loaded}")
-    print("Frontend will be served at: http://127.0.0.1:5000")
+    print("Hooked Frontend will be served at: http://127.0.0.1:5000")
     
     app.run(host="127.0.0.1", port=5000, debug=True)

@@ -25,15 +25,15 @@ venv/
 env/
 ENV/
 
-# Model files
-model/
-*.joblib
-*.pkl
-*.model
+# Model files (keep trained models in repo for demo)
+# model/
+# *.joblib
+# *.pkl
 
-# Data files
+# Large data files
 dataset.csv
-*.csv
+Phishing_Legitimate_full.csv
+new_data_urls.csv
 sample_urls.txt
 *_results.json
 
@@ -61,3 +61,11 @@ instance/
 # Environment variables
 .env
 .env.local
+
+# Frontend build (if using Node.js build process)
+node_modules/
+frontend/dist/
+frontend/build/
+
+# Test outputs
+test_results/
