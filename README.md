@@ -55,11 +55,11 @@ Don't get caught by phishing! Hooked is a comprehensive ML system that detects p
 - **Training**: Balanced dataset with phishing/legitimate URLs
 
 ### API Endpoints
-- `POST /api/check` - Single URL analysis
-- `POST /api/batch` - Multiple URL analysis
-- `POST /api/explain` - Feature importance explanation
-- `GET /api/model/info` - Model information
-- `GET /api/health` - System health check
+- `POST /api/check` -  Single URL analysis
+- `POST /api/batch` -  Multiple URL analysis
+- `POST /api/explain` -  Feature importance explanation
+- `GET /api/model/info` -  Model information
+- `GET /api/health` -  System health check
 
 ### Deployment
 - **Frontend**: Responsive web interface
