@@ -62,7 +62,7 @@ Don't get caught by phishing! Hooked is a comprehensive ML system that detects p
 - `GET /api/health` -  System health check
 
 ### Deployment
-- **Frontend**: Responsive web interface
-- **Backend**: Flask REST API
-- **CLI**: Command-line tools for automation
-- **Cross-platform**: Windows, macOS, Linux support
+- **Frontend**:  Responsive web interface
+- **Backend**:  Flask REST API
+- **CLI**:  Command-line tools for automation
+- **Cross-platform**:  Windows, macOS, Linux support
