@@ -105,7 +105,7 @@ def api_explain():
         return jsonify({"error": "model not loaded"}), 500
     
     try:
-        explanations = explain_url(url, top_k=10, use_network=False)
+        explanations = explain_url(url, top_k=10, use_network = False)
         return jsonify({
             "url": url,
             "explanations": [{"feature": name, "value": float(val)} for name, val in explanations],
