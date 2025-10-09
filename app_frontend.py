@@ -46,7 +46,7 @@ def api_check():
         result = predict(url, use_network=data.get("use_network", True), include_advice=True)
         if len(result) == 3:  # With advice
             pred, proba, advice = result
-        else:  # Without advice (fallback)
+        else: # Without advice (fallback)
             pred, proba = result
             advice = []
         
